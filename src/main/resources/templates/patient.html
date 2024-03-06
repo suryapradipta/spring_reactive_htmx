@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Queue</title>
+<!--    <link rel="stylesheet" href="/css/styles.css">-->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Patient Queue</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Condition</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.id}"></td>
+            <td th:text="${patient.name}"></td>
+            <td th:text="${patient.condition}"></td>
+            <td>
+                <form hx-post="@{'/patients/' + ${patient.id} + '/delete'}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Add New Patient</h2>
+    <form th:action="@{/patients/create}" method="post">
+        <label>Name: <input type="text" name="name"></label><br>
+        <label>Condition: <input type="text" name="condition"></label><br>
+        <button type="submit">Add Patient</button>
+    </form>
+
+</section>
+</body>
+</html>
